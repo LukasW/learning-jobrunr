@@ -18,21 +18,21 @@ kind load image-archive learning-jobrunr.tar --name jobrunr-demo
 
 .Deploy to kind
 ----
-k apply -f k8s/postgres-deployment.yaml
-k apply -f k8s/quarkus-deployment.yaml
+kubectl apply -f k8s/postgres-deployment.yaml
+kubectl apply -f k8s/quarkus-deployment.yaml
 ----
 
 Link to dashboard http://localhost:8000/dashboard
 Schedule job: http://localhost:8080/jobs/trigger-simple?name=K8s-Test
 
-.Scale uo
+.Scale up
 [source, bash]
 ----
-k scale deployment learning-jobrunr --replicas=3
+kubectl scale deployment learning-jobrunr --replicas=3
 ----
 
 .Cleanup
 [source, bash]
 ----
-. kind delete cluster --name jobrunr-demo
+kind delete cluster --name jobrunr-demo
 ----
