@@ -1,0 +1,12 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    # Mappe Host-Port 8080 auf den Kubernetes NodePort 30080
+    extraPortMappings:
+      - containerPort: 30080 # Dies ist der NodePort, den wir später im K8s Service verwenden
+        hostPort: 8080       # Dies ist der Port auf deinem Laptop (localhost)
+        protocol: TCP
+      - containerPort: 30081 # Dies ist der NodePort, den wir später im K8s Service verwenden
+        hostPort: 8000       # Dies ist der Port auf deinem Laptop (localhost)
+        protocol: TCP

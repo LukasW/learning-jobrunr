@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jobrunr-db-secret
+type: Opaque
+stringData:
+  # Wichtig: Diese Werte werden vom Postgres-Image zur Initialisierung verwendet
+  POSTGRES_DB: jobrunr
+  POSTGRES_USER: jobrunr
+  POSTGRES_PASSWORD: mysecretpassword # Ändere dies nicht einfach, es sei denn, du änderst es auch im Quarkus-Deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          envFrom:
+            # Lade DB-Name, User und Passwort aus dem Secret
+            - secretRef:
+                name: jobrunr-db-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service # WICHTIG: Dieser Name ist die Host-Adresse für Quarkus
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP # Nur intern im Cluster erreichbar

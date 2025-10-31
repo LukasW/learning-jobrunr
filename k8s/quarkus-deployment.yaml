@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-app-deployment
+spec:
+  replicas: 1 # Beginne mit einer Instanz. JobRunr skaliert horizontal!
+  selector:
+    matchLabels:
+      app: quarkus-app
+  template:
+    metadata:
+      labels:
+        app: quarkus-app
+    spec:
+      containers:
+        - name: quarkus-app
+          image: localhost/lukasweibel/learning-jobrunr:1.0.0-SNAPSHOT # Das Image, das wir oben geladen haben
+          imagePullPolicy: Never # Wichtig: 'Never', da das Image bereits im Cluster ist
+          ports:
+            - containerPort: 8080 # Der Port, auf dem Quarkus läuft
+          env:
+            # --- Überschreibe die application.properties für K8s ---
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              # 'postgres-service' ist der Name unseres K8s-Postgres-Service
+              value: jdbc:postgresql://postgres-service:5432/jobrunr
+            - name: QUARKUS_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: jobrunr-db-secret # Dasselbe Secret wie bei Postgres
+                  key: POSTGRES_USER
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jobrunr-db-secret
+                  key: POSTGRES_PASSWORD
+            # Stelle sicher, dass JobRunr die Tabellen erstellt
+            - name: QUARKUS_JOBRUNR_DATABASE_MIGRATE_ON_STARTUP
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-app-service
+spec:
+  selector:
+    app: quarkus-app
+  ports:
+    - name: http
+      port: 8080       # Port innerhalb des Clusters
+      targetPort: 8080 # Port auf dem Pod
+      # Der NodePort, den wir in der kind-config.yaml gemappt haben
+      nodePort: 30080
+    - name: http-alt
+      port: 8000       # Alternativer Port innerhalb des Clusters
+      targetPort: 8000 # Port auf dem Pod bleibt derselbe
+      nodePort: 30081  # Der NodePort, den wir in der kind-config.yaml gemappt haben
+  type: NodePort # Exponiert den Service auf einem Port auf jedem Node

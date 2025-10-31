@@ -1,0 +1,38 @@
+.Create cluster
+[source, bash]
+----
+kind create cluster --name jobrunr-demo --config k8s/kind-config.yaml
+----
+
+
+[source, bash]
+----
+./mvnw clean package -Dquarkus.container-image.build=true
+----
+
+.Export and import image into kind
+----
+podman save localhost/lukasweibel/learning-jobrunr:1.0.0-SNAPSHOT -o learning-jobrunr.tar
+kind load image-archive learning-jobrunr.tar --name jobrunr-demo
+----
+
+.Deploy to kind
+----
+k apply -f k8s/postgres-deployment.yaml
+k apply -f k8s/quarkus-deployment.yaml
+----
+
+Link to dashboard http://localhost:8000/dashboard
+Schedule job: http://localhost:8080/jobs/trigger-simple?name=K8s-Test
+
+.Scale uo
+[source, bash]
+----
+k scale deployment learning-jobrunr --replicas=3
+----
+
+.Cleanup
+[source, bash]
+----
+. kind delete cluster --name jobrunr-demo
+----
