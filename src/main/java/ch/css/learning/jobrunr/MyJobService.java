@@ -1,6 +1,7 @@
 package ch.css.learning.jobrunr;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import org.jobrunr.jobs.annotations.Job;
 import org.jobrunr.jobs.context.JobContext;
 import org.jobrunr.jobs.context.JobDashboardProgressBar;
@@ -15,8 +16,8 @@ public class MyJobService {
      * @param input Ein String-Parameter
      */
     @Job(name = "Mein einfacher Job", retries = 2)
-    public void doSimpleJob(String input) {
-        System.out.println("JOB GESTARTET: Verarbeite '" + input + "'");
+    public void doSimpleJob(SimpleJobParameters input) {
+        System.out.println("JOB GESTARTET: Verarbeite '" + input.getName() + " -" + input.getDescription() +  "-'");
         try {
             // Simuliere Arbeit
             TimeUnit.SECONDS.sleep(5);
@@ -30,14 +31,18 @@ public class MyJobService {
      * Ein Job mit JobContext, um Details im Dashboard anzuzeigen.
      */
     @Job(name = "Langer Job mit Status")
+    @Transactional
     public void doLongJob(JobContext jobContext) {
         JobDashboardProgressBar jobDashboardProgressBar = jobContext.progressBar(100);
         System.out.println("Langer Job gestartet...");
 
+
         try {
-            TimeUnit.SECONDS.sleep(10);
-            jobDashboardProgressBar.setProgress(50);
-            TimeUnit.SECONDS.sleep(10);
+            for (int i = 1; i < 100; i++) {
+                TimeUnit.MILLISECONDS.sleep(100);
+                jobDashboardProgressBar.incrementSucceeded();
+                jobContext.logger().info("Fortschritt: " + i + "%" );
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

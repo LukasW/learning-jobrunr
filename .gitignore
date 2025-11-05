@@ -45,3 +45,4 @@ nb-configuration.xml
 .certs/
 
 learning-jobrunr.tar
+/src/main/resources/jobrunr-pro.license

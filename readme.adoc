@@ -36,3 +36,17 @@ kubectl scale deployment learning-jobrunr --replicas=3
 ----
 kind delete cluster --name jobrunr-demo
 ----
+
+.Run separate Postgres with Podman
+[source, bash]
+----
+podman run -d \
+ --name my-postgres17 \
+ -e POSTGRES_PASSWORD=your_strong_password \
+ -p 5432:5432 \
+ postgres:17
+----
+
+== Use-Cases
+
+* [ ] Batches
