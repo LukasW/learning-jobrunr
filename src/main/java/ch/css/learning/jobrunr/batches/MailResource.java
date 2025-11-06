@@ -14,7 +14,7 @@ public class MailResource {
     @GET
     @Path("/trigger")
     public String triggerLongJob(@DefaultValue("general-template") @QueryParam("template") String mailTemplateKey) {
-        newsletterService.sendEmailsToAllSubscribers(mailTemplateKey);
+        newsletterService.startEmailsToAllSubscribersBatch(mailTemplateKey);
         return "Batch Job eingereiht!";
     }
 }

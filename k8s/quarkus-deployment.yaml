@@ -46,12 +46,12 @@ spec:
     app: quarkus-app
   ports:
     - name: http
-      port: 8080       # Port innerhalb des Clusters
-      targetPort: 8080 # Port auf dem Pod
+      port: 9090       # Port innerhalb des Clusters
+      targetPort: 9090 # Port auf dem Pod
       # Der NodePort, den wir in der kind-config.yaml gemappt haben
       nodePort: 30080
     - name: http-alt
-      port: 8000       # Alternativer Port innerhalb des Clusters
-      targetPort: 8000 # Port auf dem Pod bleibt derselbe
+      port: 9000       # Alternativer Port innerhalb des Clusters
+      targetPort: 9000 # Port auf dem Pod bleibt derselbe
       nodePort: 30081  # Der NodePort, den wir in der kind-config.yaml gemappt haben
   type: NodePort # Exponiert den Service auf einem Port auf jedem Node

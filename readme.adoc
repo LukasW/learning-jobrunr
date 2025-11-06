@@ -1,11 +1,10 @@
 .Create cluster
-[source, bash]
+[source,bash]
 ----
 kind create cluster --name jobrunr-demo --config k8s/kind-config.yaml
 ----
 
-
-[source, bash]
+[source,bash]
 ----
 ./mvnw clean package -Dquarkus.container-image.build=true
 ----
@@ -22,23 +21,26 @@ kubectl apply -f k8s/postgres-deployment.yaml
 kubectl apply -f k8s/quarkus-deployment.yaml
 ----
 
-Link to dashboard http://localhost:8000/dashboard
-Schedule job: http://localhost:8080/jobs/trigger-simple?name=K8s-Test
+.Link to dashboard
+link:http://localhost:9000/dashboard[JobRunr Dashboard]
+
+.Schedule job
+link:http://localhost:9090/jobs/trigger-simple?name=K8s-Test[Trigger K8s-Test Job]
 
 .Scale up
-[source, bash]
+[source,bash]
 ----
 kubectl scale deployment learning-jobrunr --replicas=3
 ----
 
 .Cleanup
-[source, bash]
+[source,bash]
 ----
 kind delete cluster --name jobrunr-demo
 ----
 
 .Run separate Postgres with Podman
-[source, bash]
+[source,bash]
 ----
 podman run -d \
  --name my-postgres17 \
@@ -50,3 +52,7 @@ podman run -d \
 == Use-Cases
 
 * [ ] Batches
+
+== Fragen
+
+* Wie kann man Parallelität in einem Host steuern?

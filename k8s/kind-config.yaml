@@ -5,8 +5,8 @@ nodes:
     # Mappe Host-Port 8080 auf den Kubernetes NodePort 30080
     extraPortMappings:
       - containerPort: 30080 # Dies ist der NodePort, den wir später im K8s Service verwenden
-        hostPort: 8080       # Dies ist der Port auf deinem Laptop (localhost)
+        hostPort: 9090       # Dies ist der Port auf deinem Laptop (localhost)
         protocol: TCP
       - containerPort: 30081 # Dies ist der NodePort, den wir später im K8s Service verwenden
-        hostPort: 8000       # Dies ist der Port auf deinem Laptop (localhost)
+        hostPort: 9000       # Dies ist der Port auf deinem Laptop (localhost)
         protocol: TCP
