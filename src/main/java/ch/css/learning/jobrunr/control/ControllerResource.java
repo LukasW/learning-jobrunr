@@ -28,9 +28,9 @@ public class ControllerResource {
 
 
         List<Job> jobs = storageProvider.getJobList(builder.build(), new AmountRequest("", 4));
+        jobs.stream().map(j -> j.getJobDetails().getJobParameters().toString()).forEach(System.out::println);
         jobs.forEach(j -> j.delete("just because"));
         return "Stopped";
-
     }
 
 }

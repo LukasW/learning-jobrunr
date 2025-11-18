@@ -20,6 +20,10 @@ public class SendSingleMailJob {
 
     @Transactional
     public void send(Long userId, String mailTemplateKey, JobContext jobContext) throws IOException {
+        jobContext.runStepOnce("Send mail to user " + userId, () -> send(userId, mailTemplateKey));
+    }
+
+    private void send(Long userId, String mailTemplateKey) throws IOException {
         User user = new User();
         user.setId(userId);
         Mail mail = new Mail();
@@ -34,6 +38,5 @@ public class SendSingleMailJob {
         if (rnd.nextDouble() < 0.5) {
             throw new IOException("Simulated email sending failure");
         }
-
     }
 }

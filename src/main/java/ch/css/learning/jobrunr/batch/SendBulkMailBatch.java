@@ -51,7 +51,7 @@ public class SendBulkMailBatch {
                         .withLabels(getBatchJobIdentifier(mailTemplateKey, jobContext))
                         .withDetails(() -> sendMailJob.send(id, mailTemplateKey, JobContext.Null))
                 );
-
+        
         jobScheduler.create(jobBuilderStream);
         LOGGER.info("Enqueued emails to all subscribers with template: {}", mailTemplateKey);
     }
