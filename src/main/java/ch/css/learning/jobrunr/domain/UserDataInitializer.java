@@ -17,7 +17,7 @@ public class UserDataInitializer {
     @Transactional
     void onStart(@Observes StartupEvent ev) {
         if (userRepository.count() == 0) {
-            IntStream.rangeClosed(1, 200_000).forEach(i -> {
+            IntStream.rangeClosed(1, 5).forEach(i -> {
                 User user = new User();
                 user.setUsername("user" + i);
                 user.setEmail("user" + i + "@example.com");

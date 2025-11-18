@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: quarkus-app-deployment
+  name: learning-jobrunr
 spec:
   replicas: 1 # Beginne mit einer Instanz. JobRunr skaliert horizontal!
   selector:
     matchLabels:
-      app: quarkus-app
+      app: learning-jobrunr-app
   template:
     metadata:
       labels:
-        app: quarkus-app
+        app: learning-jobrunr-app
     spec:
       containers:
-        - name: quarkus-app
+        - name: learning-jobrunr-app
           image: localhost/lukasweibel/learning-jobrunr:1.0.0-SNAPSHOT # Das Image, das wir oben geladen haben
           imagePullPolicy: Never # Wichtig: 'Never', da das Image bereits im Cluster ist
           ports:
@@ -40,10 +40,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: quarkus-app-service
+  name: learning-jobrunr-service
 spec:
   selector:
-    app: quarkus-app
+    app: learning-jobrunr-app
   ports:
     - name: http
       port: 9090       # Port innerhalb des Clusters

@@ -1,4 +1,4 @@
-package ch.css.learning.jobrunr.batches;
+package ch.css.learning.jobrunr.batch;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -9,12 +9,12 @@ import jakarta.ws.rs.core.MediaType;
 public class MailResource {
 
     @Inject
-    NewsletterService newsletterService;
+    SendBulkMailBatch sendBulkMailBatch;
 
     @GET
-    @Path("/trigger")
+    @Path("/start")
     public String triggerLongJob(@DefaultValue("general-template") @QueryParam("template") String mailTemplateKey) {
-        newsletterService.startEmailsToAllSubscribersBatch(mailTemplateKey);
+        sendBulkMailBatch.startSendBulkMailBatch(mailTemplateKey);
         return "Batch Job eingereiht!";
     }
 }

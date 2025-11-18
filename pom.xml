@@ -65,6 +65,12 @@
             <version>8.1.0</version>
         </dependency>
         <dependency>
+            <groupId>org.jobrunr</groupId>
+            <artifactId>jobrunr-pro-dashboard-authentication-openid</artifactId>
+            <version>8.1.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
@@ -74,8 +80,22 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-oidc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Container Image Support -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-container-image-podman</artifactId>
         </dependency>
+
+        <!-- Test Dependencies -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
@@ -85,17 +105,6 @@
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 

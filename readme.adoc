@@ -18,7 +18,7 @@ kind load image-archive learning-jobrunr.tar --name jobrunr-demo
 .Deploy to kind
 ----
 kubectl apply -f k8s/postgres-deployment.yaml
-kubectl apply -f k8s/quarkus-deployment.yaml
+kubectl apply -f k8s/quarkus-jobrunr-deployment.yaml
 ----
 
 .Link to dashboard
@@ -43,10 +43,16 @@ kind delete cluster --name jobrunr-demo
 [source,bash]
 ----
 podman run -d \
- --name my-postgres17 \
+ --name jobrunr-db \
  -e POSTGRES_PASSWORD=your_strong_password \
  -p 5432:5432 \
  postgres:17
+----
+
+.Run separate keycloak with Podman
+[source,bash]
+----
+podman run -d \
 ----
 
 == Use-Cases
